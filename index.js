@@ -34,6 +34,28 @@ class Tree {
     buildTree(array) {
         return this.buildTreeRecur(array, 0, array.length - 1)
     }
+
+    insertRecur(root, data){
+
+        if (root === null){
+            return new Node(data);
+        }
+        // Duplicates not allowed
+        if (root.data === data){
+            return root;
+        }
+
+        if (data < root.data)
+            root.left = this.insertRecur(root.left, data);
+        else if (data > root.data)
+            root.right = this.insertRecur(root.right, data);
+
+        return root;
+    }
+
+    insert(value) {
+        this.root = this.insertRecur(this.root, value);
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
