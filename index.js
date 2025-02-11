@@ -149,16 +149,18 @@ class Tree {
         this.preOrder(node.right, callback); // Visit right
     }
 
-    inOrder(node = this.root, callback) {
+    inOrder(node = this.root, callback, nodes=[]) {
         if (!callback) {
             throw new Error('A callback is required');
         }
         
         if (node === null) return;
     
-        this.preOrder(node.left, callback); // Visit left
-        callback(node); // Process root
-        this.preOrder(node.right, callback); // Visit right
+        this.inOrder(node.left, callback, nodes); // Visit left
+        callback(node, nodes); // Process root
+        this.inOrder(node.right, callback, nodes); // Visit right
+
+        return nodes;
     }
 
     postOrder(node = this.root, callback) {
@@ -168,8 +170,8 @@ class Tree {
         
         if (node === null) return;
     
-        this.preOrder(node.left, callback); // Visit left
-        this.preOrder(node.right, callback); // Visit right
+        this.postOrder(node.left, callback); // Visit left
+        this.postOrder(node.right, callback); // Visit right
         callback(node); // Process root
     }
     
@@ -218,12 +220,17 @@ class Tree {
     }
 
     reBalance(){
+        if (this.isBalanced()) return;
 
+        let nodes = this.inOrder(this.root, callback, []);
+
+        this.root = this.buildTree(nodes)
     }
 }
 
-const callback = (node) => {
-    console.log(node.data);
+const callback = (node, nodes) => {
+    nodes.push(node.data)
+    console.log(nodes);
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
