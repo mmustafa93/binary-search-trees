@@ -101,6 +101,21 @@ class Tree {
     deleteItem(value){
         this.root = this.deleteRecur(this.root, value); 
     }
+
+    find(value, root = this.root) {
+        // Base case: If the tree is empty or we find the value
+        if (root === null || root.data === value) {
+            return root;
+        }
+    
+        // If the value is smaller, search in the left subtree
+        if (value < root.data) {
+            return this.find(value, root.left);
+        } 
+    
+        // If the value is larger, search in the right subtree
+        return this.find(value, root.right);
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
