@@ -246,3 +246,69 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
   };
  
+// Function to generate random numbers less than 100
+function generateRandomNumbers(count) {
+    const numbers = [];
+    for (let i = 0; i < count; i++) {
+        numbers.push(Math.floor(Math.random() * 100));
+    }
+    return numbers;
+}
+
+// Driver Script
+(function() {
+    // Create a binary search tree from an array of random numbers less than 100
+    const randomNumbers = generateRandomNumbers(10); // Generating 10 random numbers
+    console.log('Random Numbers:', randomNumbers);
+
+    const bst = new Tree(randomNumbers);
+
+    // Confirm the tree is balanced by calling isBalanced
+    console.log('Is the tree balanced?', bst.isBalanced());
+
+    // Print out all elements in level, pre, post, and in order
+    console.log('Level Order:');
+    bst.levelOrder(node => console.log(node.data));
+
+    console.log('Pre Order:');
+    bst.preOrder(bst.root, node => console.log(node.data));
+
+    console.log('Post Order:');
+    bst.postOrder(bst.root, node => console.log(node.data));
+
+    console.log('In Order:');
+    bst.inOrder(bst.root, (node, nodes) => {
+        if (nodes) nodes.push(node.data);
+    }).forEach(data => console.log(data));
+
+    // Unbalance the tree by adding several numbers > 100
+    const unbalancedNumbers = [150, 200, 300, 250];
+    unbalancedNumbers.forEach(num => bst.insert(num));
+    console.log('Unbalanced the tree by adding numbers greater than 100.');
+
+    // Confirm that the tree is unbalanced
+    console.log('Is the tree balanced after unbalancing?', bst.isBalanced());
+
+    // Balance the tree by calling rebalance
+    bst.reBalance();
+    console.log('Tree rebalanced.');
+
+    // Confirm that the tree is balanced
+    console.log('Is the tree balanced after rebalancing?', bst.isBalanced());
+
+    // Print out all elements in level, pre, post, and in order again
+    console.log('Level Order after rebalancing:');
+    bst.levelOrder(node => console.log(node.data));
+
+    console.log('Pre Order after rebalancing:');
+    bst.preOrder(bst.root, node => console.log(node.data));
+
+    console.log('Post Order after rebalancing:');
+    bst.postOrder(bst.root, node => console.log(node.data));
+
+    console.log('In Order after rebalancing:');
+    bst.inOrder(bst.root, (node, nodes) => {
+        if (nodes) nodes.push(node.data);
+    }).forEach(data => console.log(data));
+
+})();
