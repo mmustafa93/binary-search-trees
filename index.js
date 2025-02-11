@@ -137,7 +137,75 @@ class Tree {
         }
     }
 
+    preOrder(node = this.root, callback) {
+        if (!callback) {
+            throw new Error('A callback is required');
+        }
+        
+        if (node === null) return;
     
+        callback(node); // Process root
+        this.preOrder(node.left, callback); // Visit left
+        this.preOrder(node.right, callback); // Visit right
+    }
+
+    inOrder(node = this.root, callback) {
+        if (!callback) {
+            throw new Error('A callback is required');
+        }
+        
+        if (node === null) return;
+    
+        this.preOrder(node.left, callback); // Visit left
+        callback(node); // Process root
+        this.preOrder(node.right, callback); // Visit right
+    }
+
+    postOrder(node = this.root, callback) {
+        if (!callback) {
+            throw new Error('A callback is required');
+        }
+        
+        if (node === null) return;
+    
+        this.preOrder(node.left, callback); // Visit left
+        this.preOrder(node.right, callback); // Visit right
+        callback(node); // Process root
+    }
+    
+    height(node){
+        if (node === null) return -1;
+        
+        let leftHeight = this.height(node.left);
+        let rightHeight = this.height(node.right);
+
+        return Math.max(leftHeight, rightHeight) + 1; // Add 1 for the current edge
+    }
+
+    depth(node) {
+        let root = this.root;
+        let count = 0;
+    
+        if (node === null) return -1; // If the node is null, return -1 as a marker for invalid input.
+    
+        while (root !== null) {
+            if (node.data === root.data) return count; // Found the node, return the number of edges.
+    
+            if (node.data < root.data) {
+                root = root.left; // Move left if the node’s data is smaller.
+            } else {
+                root = root.right; // Move right if the node’s data is larger.
+            }
+    
+            count++; // Increment the count for each edge you traverse.
+        }
+    
+        return -1; // Return -1 if the node wasn't found in the tree.
+    }
+}
+
+const callback = (node) => {
+    console.log(node.data);
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
