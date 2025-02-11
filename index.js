@@ -56,6 +56,51 @@ class Tree {
     insert(value) {
         this.root = this.insertRecur(this.root, value);
     }
+
+    getSuccessor(currentNode) {
+        currentNode = currentNode.right;
+        while (currentNode !== null && currentNode.left !== null) {
+            currentNode = currentNode.left;
+        }
+        return currentNode;
+    }
+
+    deleteRecur(root, data){
+        // Base case
+        if (root === null) {
+            return root;
+        }
+
+        // If key to be searched is in a subtree
+        if (root.data > data){
+            root.left = this.deleteRecur(root.left, data)
+        } else if (root.data < data){
+            root.right = this.deleteRecur(root.right, data)
+        } else {
+            // If root matches with the given value
+
+            // Cases when root has 0 children or 
+            // only right child
+            if (root.left === null){
+                return root.right
+            }
+
+            // When root has only left child
+            if (root.right === null) 
+            return root.left;
+
+            // When both children are present
+            let successor = this.getSuccessor(root);
+            root.data = successor.data;
+            root.right = this.deleteRecur(root.right, successor.data)
+        }
+
+        return root;
+    }
+
+    deleteItem(value){
+        this.root = this.deleteRecur(this.root, value); 
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
