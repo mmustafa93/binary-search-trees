@@ -116,6 +116,28 @@ class Tree {
         // If the value is larger, search in the right subtree
         return this.find(value, root.right);
     }
+
+    levelOrder(callback) {
+        if (this.root === null) return;
+    
+        if (!callback) {
+            throw new Error('A callback is required');
+        }
+    
+        let queue = [this.root];
+    
+        while (queue.length > 0) {
+            let currentNode = queue.shift(); // Dequeue the front node
+    
+            callback(currentNode); // Call the provided callback function
+    
+            // Enqueue left and right children if they exist
+            if (currentNode.left) queue.push(currentNode.left);
+            if (currentNode.right) queue.push(currentNode.right);
+        }
+    }
+
+    
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
