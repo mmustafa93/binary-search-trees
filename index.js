@@ -202,6 +202,24 @@ class Tree {
     
         return -1; // Return -1 if the node wasn't found in the tree.
     }
+
+    isBalanced(node = this.root){
+        if (node === null) return true; // Base case: An empty tree is balanced.
+
+        let leftTreeHeight = this.height(this.root.left);
+        let rightTreeHeight = this.height(this.root.right);
+
+        let heightDiff = Math.abs(leftTreeHeight - rightTreeHeight);
+
+        // The tree is balanced if:
+        // 1. The height difference is at most 1
+        // 2. The left and right subtrees are also balanced
+        return heightDiff <= 1 && this.isBalanced(node.left) && this.isBalanced(node.right);
+    }
+
+    reBalance(){
+
+    }
 }
 
 const callback = (node) => {
