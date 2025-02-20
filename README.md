@@ -26,7 +26,7 @@ binary-search-trees/
 ## ⚙️ **Installation**
 1. **Clone the Repository:**
 ```sh
-git clone https://github.com/yourusername/binary-search-trees.git
+git clone git@github.com:mmustafa93/binary-search-trees.git
 cd binary-search-trees
 ```
 
